@@ -1,0 +1,179 @@
+GITHUB
+======
+git --version								wersja gita
+git help polecenie							wywolywanie helpa
+git polecenie --help						wywolywanie helpa
+
+git config --global user.name "dkuam"		konfigurowanie nazwy uzytkownika, ponizej adresu e-mail
+git config --global user.email mojadres@st.amu.edu.pl
+
+git config --list							odczyt konfiguracji
+git config user.name						odczyt nazwy uzytkownika
+
+git status									status repozytorium na dysku
+git status --short							Nowe nieśledzone pliki = ??, nowe pliki dodane do poczekalni = A, zmodyfikowane pliki = M. Mamy tutaj tylko dwie kolumny - lewa wskazuje na to czy plik jest w poczekalni, a prawa czy jest zmieniony.
+
+git init									tworzy repozytorium w aktualnym katalogu
+
+git add dev-0/out.tsv test-A/out.tsv		dodanie plików do repozytorium, rozpoczęcie śledzenia nowego pliku
+git add *.py
+git add *
+git add --all								dodaj wszystko
+git add -A									jw.
+git add .									jw.
+
+git commit -m 'komentarz zmienilem cos'		zatwierdzanie zmian; -m = message; W Windows użyć " "
+git commit 									uruchomi edytor tekstu by wpisać komentarz
+											wyjscie z vim :wq
+git commit -a -m 'komentarz zmienilem cos'	commit z pominięciem git add, na Win coś nie działa
+
+git push									wysłanie na serwer; zapyta o hasło
+git push --set-upstream origin master		robimy tak raz na poczatku [po stworzeniu na GitHubie nowego repozytorium ???]
+git push									synchronizacja
+git push [nazwa-zdalnego-repo] [nazwa-gałęzi]
+git push origin master						klonowanie ustawia obie te nazwy - master i origin - domyślnie i automatycznie
+Polecenie zadziała tylko jeśli sklonowałeś repozytorium z serwera do którego masz prawo zapisu oraz jeśli nikt inny w międzyczasie nie wypchnął własnych zmian.
+
+
+git clone git@github.com:dkuam/PyLadies-Git.git		skopiuj repozytorium z serwera na PC
+git clone git@github.com:dkuam/pyladies.git
+git clone https://github.com/dkuam/UMZ.git
+git clone https://github.com/dkuam/pyladies.git		bez certyfikatu zadziala tylko https
+
+
+git fetch skrot								jeżeli chcesz pobrać wszystkie informacje ze skrot, których ty jeszcze nie masz; skrot ustalony przez git remote add skrot ...;  Po tej operacji, powinieneś mieć już odnośniki do wszystkich zdalnych gałęzi, które możesz teraz scalić z własnymi plikami lub sprawdzić ich zawartość.
+git fetch origin 							pobierze każdą nową pracę jaka została wypchnięta na oryginalny serwer od momentu sklonowania go przez ciebie (lub ostatniego pobrania zmian). Polecenie fetch pobiera dane do lokalnego repozytorium - nie scala jednak automatycznie zmian z żadnym z twoich plików roboczych jak i w żaden inny sposób tych plików nie modyfikuje. Musisz scalić wszystkie zmiany ręcznie, kiedy będziesz już do tego gotowy.
+
+git pull									żeby automatycznie pobrać dane (fetch) i je scalić (merge) z lokalnymi plikami. Domyślnie, polecenie git clone ustawia twoją lokalną gałąź główną master tak aby śledziła zmiany w zdalnej gałęzi master na serwerze z którego sklonowałeś repozytorium (zakładając, że zdalne repozytorium posiada gałąź master). Uruchomienie git pull, ogólnie mówiąc, pobiera dane z serwera na bazie którego oryginalnie stworzyłeś swoje repozytorium i próbuje automatycznie scalić zmiany z kodem roboczym nad którym aktualnie, lokalnie pracujesz. By wykonać pull wchodzimy do katalogu z repozytorium.
+
+
+git diff									pokazuje roznice w plikach; nie pokazuje wszystkich zmian dokonanych od ostatniego zatwierdzenia, a jedynie te, które nie trafiły do poczekalni
+git diff --cached							polecenia cached i staged są identyczne
+git diff --staged							Jeśli chcesz zobaczyć zawartość poczekalni, która trafi do repozytorium z najbliższym zatwierdzeniem. To polecenie porówna zmiany z poczekalni z ostatnią migawką.
+
+git log										listuje zmiany zatwierdzone w tym repozytorium w odwrotnej kolejności chronologicznej, czyli pokazując najnowsze zmiany w pierwszej kolejności; po dlugim logu naciskamy q
+git log -p -2								różnice wprowadzone z każdą rewizją; ograniczenie loga do dwóch ostatnich wpisów
+git log --stat								skrócone statystyki każdej z zatwierdzonych zmian
+
+USUWANIE/COFANIE ZMIAN
+git mv README.md README						Zmiana nazw plików https://git-scm.com/book/pl/v2/Podstawy-Gita-Rejestrowanie-zmian-w-repozytorium
+
+git rm plik									usuwa plik ze zbioru plików śledzonych, dodatkowo z katalogu roboczego [spr jak to dziala???]
+
+git reset HEAD script.py					żeby usunąć plik z poczekalni, po tym zmiany w pliku są obecne
+
+git revert HEAD								wycofanie ostatniego commita, robi ta tak: utworzy commit, ktore wycofuja zmiany w ostatnim commicie (czyli nowy commit i ten 2 wstecz sa te same)
+
+
+git checkout -- program.py					wycofanie zmian; stosować ostrożnie; wszelkie zmiany jakie wykonałeś w pliku przepadają - w rzeczy samej został on nadpisany poprzednią wersją.
+
+
+Generujemy klucze SSH - patrz niżej
+
+Po zalogowaniu > https://github.com/new
+Nowe repozyt > Podajemy nazwe > Create repository
+SSH		git@github.com:dkuam/pyladies.git
+HTTPS	https://github.com/dkuam/pyladies.git
+
+git remote									pokazuje skrócone nazwy wszystkich określonych przez ciebie serwerów
+git remote -v								wyświetlenie przypisanego do skrótu, pełnego, zapamiętanego przez Gita, adresu URL
+											jeśli nic nie pokazuje, to oznacza, że nie dodalismy jeszcze
+
+git remote add origin git@github.com:dkuam/pyladies.git
+											aby dodać zdalne repozytorium jako skrót, do którego z łatwością będziesz się mógł odnosić w przyszłości: git remote add [skrót] [url]
+git remote add nazwa_skrocona https://github.com/paulboone/ticgit											
+											
+git remote rename stara_nazwa nowa_nazwa	Aby zmienić nazwę odnośnika, czyli skrótu przypisanego do repozytorium;  polecenie zmienia także nazwy zdalnych gałęzi
+git remote rm nazwa							Jeśli chcesz usunąć odnośnik
+git remote show origin						więcej informacji o konkretnym zdalnym repozytorium; origin = nazwa zdalnego repo
+
+
+Na WWW GitHub
+Fork - skopiowanie z innego repozytorium
+Na repo sforkowanym klikamy Clone or download
+
+Po założeniu nowego repo na stronie GitHub:
+create a new repository on the command line
+echo "# repo1" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/dkuam/repo1.git
+git push -u origin master
+
+
+git remote add origin https://github.com/dkuam/UMZ.git
+
+---
+KLUCZE SSH 
+Linux
+cd ~/.ssh
+ls
+/home/dominik/.ssh/
+id_rsa.pub									klucz publiczny	ten klucz przekazujemy GitHubowi
+id_rsa										klucz prywatny
+
+https://github.com/settings/keys
+https://github.com/settings/ssh/new
+
+Do kazdego kompa wygenerowac osobny klucz. Wklejamy klucz, dodajemy jakis tytul zeby rozpoznacz kompa. Klucz ualtwia o tyle, ze nie trzeba wpisaywac haslo przy wysylaniu na seerwer GitHub.
+
+Możesz utworzyć parę kluczy za pomocą programu ssh-keygen. Najpierw program pyta gdzie zapisać klucze - pod jaką nazwą pliku (.ssh/id_rsa), a potem dwukrotnie prosi o podanie hasła, które nie jest obowiązkowe, jeśli nie masz zamiaru za każdym razem go podawać, gdy chcesz użyć klucza. W systemie Windows program ten jest częścią dystrybucji MSysGit.
+https://git-scm.com/book/pl/v1/Git-na-serwerze-Generacja-pary-kluczy-SSH
+---
+
+====================
+WINDOWS
+python -V									wersja [nie mylic z -v]
+
+UWAGA! By uruchamiac skrypty .py w Windows trzeba przy instalacji Pythona zaznaczyć opcję dodania do PATH lub dodać  po instalacji ręcznie:
+Win+Pause [Panel sterowania\Wszystkie elementy Panelu sterowania\System] > [po lewej] Zaawansowane ustawienia systemu > [zakładka Zaawansowane] Zmienne srodowiskowe > Zmienne systemowe [na dole] > Path [dwuklik] > w oknie Edycja zmiennej srodowiskowej: [przycisk] Nowy > C:\Program Files (x86)\Python36-32 [sciezka do folderu z plikiem python.exe]
+
+python program.py
+
+Na kompie z Win można też odpalać przez polecenie py - zainstalowana Anaconda
+py program.py
+
+Konsola CMD [z prawami admina, bo będzie problem np. w upgrade pip]:
+D:
+cd D:\UAM\_PRZEDMIOTY\SEMESTR_2\UMZ\UMZ
+python test_my_score.py
+
+pip install requests						instalacja dodatkow [w Linux]
+python -m pip								uruchomienie pip w Windows
+python -m pip install --upgrade pip			upgrade pip w Windows
+python -m pip install beautifulsoup4		instalacja dodatku Beautiful Soup w Windows
+
+Próby upgrade Pythona nie działają:
+python -m pip install python --upgrade
+python -m pip install python -U
+Collecting python
+Could not find a version that satisfies the requirement python (from versions: ) No matching distribution found for python
+
+---
+git clone https://github.com/dkuam/UMZ.git
+git status
+przekopiowalem caly folder od prowadzacego JP (pliki od niego pobrane poprzez git clone) > skopiowałem w Win do niego pliki out z mojego repo > nie dało się wysłac je do mojego repo
+clone mojego repo > podmiana plikami z repo JP [usuniecie i skopiowanie] > skopiowanie likow do zadania 1 z mojego repo > add > commit [poza zad. 1 nowe tez: folder zajecia 2 i 3]
+dodanie na serwerze GitHub pliku README.txt
+git pull
+
+
+
+---
+Sprawdzanie skojarzenia rozszerzeń plików:
+C:\>assoc .py
+.py=Python.File
+
+C:\>ftype Python.File
+Python.File="C:\Windows\py.exe" "%1" %*
+
+Inna metoda [nie sprawdzałem]:
+1. Edit registry key HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\python.exe\default
+2. Set default program to open .py files to python.exe
+---
+
+ipython3
+
+---
+Spisano na podstawie zajęć oraz https://git-scm.com/book/pl/v1/, https://git-scm.com/book/pl/v2
